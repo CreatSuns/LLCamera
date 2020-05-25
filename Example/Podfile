@@ -1,0 +1,15 @@
+#source 'https://github.com/CocoaPods/Specs.git'
+
+use_frameworks!
+
+platform :ios, '9.0'
+
+target 'LSJHCamera_Example' do
+  pod 'LSJHCamera', :path => '../'
+
+  target 'LSJHCamera_Tests' do
+    inherit! :search_paths
+
+    pod 'FBSnapshotTestCase'
+  end
+end

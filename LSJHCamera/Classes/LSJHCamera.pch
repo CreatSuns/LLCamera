@@ -1,0 +1,17 @@
+//
+//  LSJHCamera.pch
+//  LSJHCamera
+//
+//  Created by 李世航 on 2020/4/27.
+//
+
+#ifndef LSJHCamera_pch
+#define LSJHCamera_pch
+
+#import <LSJHCategory/LLCategory.h>
+#import <LSJHProgressView/WYAProgressView.h>
+#import <LSJHAlertController/LSJHAlertController.h>
+#import <LSJHImageCropController/WYAImageCropViewController.h>
+#import <Masonry/Masonry.h>
+
+#endif /* LSJHCamera_pch */
