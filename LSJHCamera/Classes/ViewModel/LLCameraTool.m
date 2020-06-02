@@ -1,10 +1,10 @@
 
 
-#import "WYACameraTool.h"
+#import "LLCameraTool.h"
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <Photos/Photos.h>
 
-@interface WYACameraTool () <AVCaptureFileOutputRecordingDelegate>
+@interface LLCameraTool () <AVCaptureFileOutputRecordingDelegate>
 
 @property (strong, nonatomic) AVCaptureSession * captureSession;                 //负责输入和输出设备之间的连接会话,数据流的管理控制
 @property (strong, nonatomic) AVCaptureVideoPreviewLayer * previewLayer;         //捕获到的视频呈现的layer
@@ -15,17 +15,17 @@
 @property (strong, nonatomic) AVCaptureMovieFileOutput * captureMovieFileOutput; //视频输出流
 @property (strong, nonatomic) AVCaptureStillImageOutput * imageOutPut;           //照片输出流
 @property (nonatomic, strong) AVCaptureDevice * device;
-@property (nonatomic, assign) WYACameraOrientation cameraOrientation;
+@property (nonatomic, assign) LLCameraOrientation cameraOrientation;
 @end
 
-@implementation WYACameraTool
+@implementation LLCameraTool
 #pragma mark - LifeCircle
 - (instancetype)init
 {
-    return [self initWithCameraOrientation:WYACameraOrientationBack];
+    return [self initWithCameraOrientation:LLCameraOrientationBack];
 }
 
-- (instancetype)initWithCameraOrientation:(WYACameraOrientation)cameraOrientation
+- (instancetype)initWithCameraOrientation:(LLCameraOrientation)cameraOrientation
 {
     self = [super init];
     if (self) {
@@ -433,11 +433,11 @@
             _captureSession.sessionPreset = AVCaptureSessionPreset1280x720;
         }
 
-        if (self.cameraOrientation == WYACameraOrientationBack) {
+        if (self.cameraOrientation == LLCameraOrientationBack) {
             if ([_captureSession canAddInput:self.backCameraInput]) {
                 [_captureSession addInput:self.backCameraInput];
             }
-        } else if (self.cameraOrientation == WYACameraOrientationFront) {
+        } else if (self.cameraOrientation == LLCameraOrientationFront) {
             if ([_captureSession canAddInput:self.frontCameraInput]) {
                 [_captureSession addInput:self.frontCameraInput];
             }
@@ -561,7 +561,7 @@
 }
 @end
 
-@implementation WYACameraTool (Authorization)
+@implementation LLCameraTool (Authorization)
 
 - (BOOL)isAvailableWithCamera
 {

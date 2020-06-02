@@ -6,7 +6,7 @@
 //  Copyright © 2018年 WeiYiAn. All rights reserved.
 //
 
-#import "WYAQRCodeViewController.h"
+#import "LLQRCodeViewController.h"
 #import "UIImage+Catagory.h"
 
 #import <AVFoundation/AVFoundation.h>
@@ -15,13 +15,13 @@
 
 static CGFloat QRCodeWidth = 220;
 
-#define TOP (ScreenHeight - WYAStatusBarHeight - QRCodeWidth) / 2
+#define TOP (ScreenHeight - LLStatusBarHeight - QRCodeWidth) / 2
 #define LEFT (ScreenWidth - QRCodeWidth) / 2
 #define kScanRect CGRectMake(LEFT, TOP, QRCodeWidth, QRCodeWidth)
 
-@interface WYAQRCodeViewController () <
+@interface LLQRCodeViewController () <
 AVCaptureMetadataOutputObjectsDelegate, AVCaptureVideoDataOutputSampleBufferDelegate,
-UIImagePickerControllerDelegate, UINavigationControllerDelegate, WYANavBarDelegate> {
+UIImagePickerControllerDelegate, UINavigationControllerDelegate, LLNavBarDelegate> {
     int num;
     BOOL upOrdown;
     CAShapeLayer * cropLayer;
@@ -43,7 +43,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, WYANavBarDelega
 @property (nonatomic, assign) BOOL blowup; //相机扫描区域是否放大过
 @end
 
-@implementation WYAQRCodeViewController
+@implementation LLQRCodeViewController
 #pragma mark - LifeCircle -
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -67,7 +67,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, WYANavBarDelega
                         [self setupCamera];
                     } else {
                         dispatch_sync(dispatch_get_main_queue(), ^{
-                            [UIView wya_warningToastWithMessage:
+                            [UIView ll_warningToastWithMessage:
                                     @"检测到您未开启相机，将在三秒钟返回"];
                         });
 
@@ -88,7 +88,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, WYANavBarDelega
         [self setupCamera];
 
     } else if (AVstatus == AVAuthorizationStatusDenied) {
-        [UIView wya_showCenterToastWithMessage:
+        [UIView ll_showCenterToastWithMessage:
                 @"检"
                 @"测到您没有开启相机权限，请前往设置开启"];
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)),
@@ -166,7 +166,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, WYANavBarDelega
     num      = 0;
     _line    = [[UIImageView alloc] initWithFrame:CGRectMake(LEFT, TOP + 10, 220, 2)];
 
-    _line.image = [UIImage loadBundleImage:@"line" ClassName:NSStringFromClass([self class])];
+    _line.image = [UIImage ll_loadBundleImage:@"line" ClassName:NSStringFromClass([self class]) bundleName:@"LSJHCamera"];
     [self.backgroundView addSubview:_line];
 
     self.timer = [NSTimer scheduledTimerWithTimeInterval:.02
@@ -369,8 +369,8 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, WYANavBarDelega
     }
 }
 
-#pragma mark ======= WYANavBarDelegate
-- (void)wya_goBackPressed:(UIButton *)sender
+#pragma mark ======= LLNavBarDelegate
+- (void)ll_goBackPressed:(UIButton *)sender
 {
     if (self.navigationController) {
         [self.navigationController popViewControllerAnimated:YES];
@@ -379,7 +379,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, WYANavBarDelega
     }
 }
 
-- (void)wya_rightBarButtonItemPressed:(UIButton *)sender
+- (void)ll_rightBarButtonItemPressed:(UIButton *)sender
 {
     PHAuthorizationStatus status = [PHPhotoLibrary authorizationStatus];
     if (status == PHAuthorizationStatusNotDetermined) {
@@ -391,7 +391,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, WYANavBarDelega
     } else if (status == PHAuthorizationStatusAuthorized) {
         [self goPhotoLibrary];
     } else if (status == PHAuthorizationStatusDenied) {
-        [UIView wya_warningToastWithMessage:
+        [UIView ll_warningToastWithMessage:
                 @"检"
                 @"测到您没有开启相册权限，请前往设置开启"];
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)),
@@ -459,7 +459,7 @@ didOutputMetadataObjects:(NSArray *)metadataObjects
         [self.timer setFireDate:[NSDate distantFuture]];
 
         AVMetadataMachineReadableCodeObject * metadataObject =
-        [metadataObjects wya_safeObjectAtIndex:0];
+        [metadataObjects ll_safeObjectAtIndex:0];
         stringValue = metadataObject.stringValue;
         NSLog(@"扫描结果：%@", stringValue);
 
@@ -534,7 +534,7 @@ didFinishPickingMediaWithInfo:(NSDictionary<NSString *, id> *)info
 
     } else {
         for (int index = 0; index < [features count]; index++) {
-            CIQRCodeFeature * feature = [features wya_safeObjectAtIndex:index];
+            CIQRCodeFeature * feature = [features ll_safeObjectAtIndex:index];
             NSString * resultStr      = feature.messageString;
             if (self.scanReault) {
                 self.scanReault(resultStr);
@@ -585,13 +585,13 @@ didFinishPickingMediaWithInfo:(NSDictionary<NSString *, id> *)info
     if (!_navBar) {
         _navBar = ({
             LLNavBar * object =
-            [[LLNavBar alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, WYATopHeight)];
+            [[LLNavBar alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, LLTopHeight)];
             object.delegate = self;
             object.navTitle = @"二维码";
             [object
-            wya_customGobackWithImage:[UIImage loadBundleImage:@"返回"
-                                                     ClassName:NSStringFromClass(self.class)]];
-            [object wya_addRightNavBarButtonWithNormalTitle:@[ @"相册" ]];
+            ll_customGobackWithImage:[UIImage ll_loadBundleImage:@"返回"
+                                                     ClassName:NSStringFromClass(self.class) bundleName:@"LSJHCamera"]];
+            [object ll_addRightNavBarButtonWithNormalTitle:@[ @"相册" ]];
             object;
         });
     }
@@ -604,8 +604,8 @@ didFinishPickingMediaWithInfo:(NSDictionary<NSString *, id> *)info
         _qrCodeImageView = ({
             UIImageView * object = [[UIImageView alloc] initWithFrame:kScanRect];
             object.image =
-            [UIImage loadBundleImage:@"pick_bg"
-                           ClassName:NSStringFromClass([self class])];
+            [UIImage ll_loadBundleImage:@"pick_bg"
+                           ClassName:NSStringFromClass([self class]) bundleName:@"LSJHCamera"];
             object.userInteractionEnabled = YES;
 
             UITapGestureRecognizer * tap =
@@ -632,14 +632,14 @@ didFinishPickingMediaWithInfo:(NSDictionary<NSString *, id> *)info
             [object setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
             [object setTitleColor:[UIColor greenColor] forState:UIControlStateSelected];
             object.titleLabel.font = FONT(12);
-            [object setImage:[UIImage loadBundleImage:@"icon_scan_flashlight"
-                                            ClassName:NSStringFromClass(self.class)]
+            [object setImage:[UIImage ll_loadBundleImage:@"icon_scan_flashlight"
+                                            ClassName:NSStringFromClass(self.class) bundleName:@"LSJHCamera"]
                     forState:UIControlStateNormal];
-            [object setImage:[UIImage loadBundleImage:@"" ClassName:NSStringFromClass(self.class)]
-                    forState:UIControlStateSelected];
+//            [object setImage:[UIImage loadBundleImage:@"" ClassName:NSStringFromClass(self.class)]
+//                    forState:UIControlStateSelected];
             object.hidden = YES;
             object.alpha  = 0;
-            [object wya_setButtonImageLocationTopWithSpace:3 * SizeAdapter];
+            [object ll_setButtonImageLocationTopWithSpace:3 * SizeAdapter];
             [object addCallBackAction:^(UIButton * button) {
                 button.selected = !button.selected;
                 if (button.selected) {

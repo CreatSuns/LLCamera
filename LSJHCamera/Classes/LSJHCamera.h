@@ -8,7 +8,7 @@
 #ifndef LSJHCamera_h
 #define LSJHCamera_h
 
-#import "WYACameraViewController.h"
-#import "WYAQRCodeViewController.h"
+#import "LLCameraViewController.h"
+#import "LLQRCodeViewController.h"
 
 #endif /* LSJHCamera_h */

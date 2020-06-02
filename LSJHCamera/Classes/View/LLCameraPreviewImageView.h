@@ -1,6 +1,5 @@
 //
-//  WYACameraPreviewImageView.h
-//  WYAKit
+//  LLCameraPreviewImageView.h
 //
 //  Created by 李世航 on 2018/12/8.
 //
@@ -9,7 +8,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface WYACameraPreviewImageView : UIImageView
+@interface LLCameraPreviewImageView : UIImageView
 /// 取消按钮回调事件
 @property (nonatomic, copy) void (^cancelHandle)(void);
 /// 完成按钮编辑事件

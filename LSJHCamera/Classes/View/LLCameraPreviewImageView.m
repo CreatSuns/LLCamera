@@ -1,19 +1,18 @@
 //
-//  WYACameraPreviewImageView.m
-//  WYAKit
+//  LLCameraPreviewImageView.m
 //
 //  Created by 李世航 on 2018/12/8.
 //
 
-#import "WYACameraPreviewImageView.h"
+#import "LLCameraPreviewImageView.h"
 
-@interface WYACameraPreviewImageView ()
+@interface LLCameraPreviewImageView ()
 @property (nonatomic, strong) UIButton * cancelButton;
 @property (nonatomic, strong) UIButton * finishButton;
 @property (nonatomic, strong) UIButton * editButton;
 @end
 
-@implementation WYACameraPreviewImageView
+@implementation LLCameraPreviewImageView
 #pragma mark ======= LifeCircle
 - (instancetype)init
 {
@@ -72,8 +71,8 @@
     if (!_cancelButton) {
         _cancelButton = ({
             UIButton * object = [[UIButton alloc] init];
-            [object setImage:[UIImage loadBundleImage:@"icon_camera_back"
-                                            ClassName:NSStringFromClass([self class])]
+            [object setImage:[UIImage ll_loadBundleImage:@"icon_camera_back"
+                                                  ClassName:NSStringFromClass([self class]) bundleName:@"LSJHCamera"]
                     forState:UIControlStateNormal];
             [object addCallBackAction:^(UIButton * button) {
                 if (self.cancelHandle) {
@@ -91,8 +90,8 @@
     if (!_finishButton) {
         _finishButton = ({
             UIButton * object = [[UIButton alloc] init];
-            [object setImage:[UIImage loadBundleImage:@"icon_camera_save"
-                                            ClassName:NSStringFromClass([self class])]
+            [object setImage:[UIImage ll_loadBundleImage:@"icon_camera_save"
+                                                  ClassName:NSStringFromClass([self class]) bundleName:@"LSJHCamera"]
                     forState:UIControlStateNormal];
             [object addCallBackAction:^(UIButton * button) {
                 if (self.finishHandle) {
@@ -110,8 +109,8 @@
     if (!_editButton) {
         _editButton = ({
             UIButton * object = [[UIButton alloc] init];
-            [object setImage:[UIImage loadBundleImage:@"icon_camera_list"
-                                            ClassName:NSStringFromClass([self class])]
+            [object setImage:[UIImage ll_loadBundleImage:@"icon_camera_list"
+                                                  ClassName:NSStringFromClass([self class]) bundleName:@"LSJHCamera"]
                     forState:UIControlStateNormal];
             WeakSelf(weakSelf);
             [object addCallBackAction:^(UIButton * button) {

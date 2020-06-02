@@ -1,16 +1,14 @@
-
-
 #import <AVFoundation/AVFoundation.h>
 #import <Foundation/Foundation.h>
 
-typedef NS_ENUM(NSUInteger, WYACameraOrientation) {
-    WYACameraOrientationBack,  //后置摄像头
-    WYACameraOrientationFront, //前置摄像头
+typedef NS_ENUM(NSUInteger, LLCameraOrientation) {
+    LLCameraOrientationBack,  //后置摄像头
+    LLCameraOrientationFront, //前置摄像头
 };
 
 typedef void (^SaveMediaBlock)(BOOL isSuccess, NSString * result, NSString * imagePath, NSString * videoPath);
 
-@interface WYACameraTool : NSObject
+@interface LLCameraTool : NSObject
 /// 拍摄模式, 默认AVCaptureSessionPresetMedium
 @property (nonatomic, assign) AVCaptureSessionPreset videoPreset;
 /// 是否保存至相册
@@ -28,7 +26,7 @@ typedef void (^SaveMediaBlock)(BOOL isSuccess, NSString * result, NSString * ima
  @param cameraOrientation 相机前置还是后置(init方法默认设置为后置)
  @return self
  */
-- (instancetype)initWithCameraOrientation:(WYACameraOrientation)cameraOrientation;
+- (instancetype)initWithCameraOrientation:(LLCameraOrientation)cameraOrientation;
 
 /**
  捕获到的视频呈现的layer
@@ -110,7 +108,7 @@ typedef void (^SaveMediaBlock)(BOOL isSuccess, NSString * result, NSString * ima
 
 @end
 
-@interface WYACameraTool (Authorization)
+@interface LLCameraTool (Authorization)
 
 /**
  相机是否可以用

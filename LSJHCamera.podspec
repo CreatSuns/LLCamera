@@ -32,9 +32,9 @@ TODO: Add long description of the pod here.
   s.swift_version = '5.0'
   s.source_files = 'LSJHCamera/Classes/**/*'
   
-  # s.resource_bundles = {
-  #   'LSJHCamera' => ['LSJHCamera/Assets/*.png']
-  # }
+  s.resource_bundles = {
+    'LSJHCamera' => ['LSJHCamera/Assets/*']
+  }
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
   s.frameworks = 'UIKit'
@@ -44,4 +44,5 @@ TODO: Add long description of the pod here.
   s.dependency 'LSJHProgressView'
   s.dependency 'LSJHAlertController'
   s.dependency 'LSJHImageCropController'
+  s.dependency 'LSJHNavBar'
 end

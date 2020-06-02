@@ -9,9 +9,9 @@
 #define LSJHCamera_pch
 
 #import <LSJHCategory/LLCategory.h>
-#import <LSJHProgressView/WYAProgressView.h>
+#import <LSJHProgressView/LLProgressView.h>
 #import <LSJHAlertController/LSJHAlertController.h>
-#import <LSJHImageCropController/WYAImageCropViewController.h>
+#import <LSJHImageCropController/LLImageCropViewController.h>
 #import <Masonry/Masonry.h>
 
 #endif /* LSJHCamera_pch */

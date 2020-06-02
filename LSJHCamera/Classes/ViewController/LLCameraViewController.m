@@ -1,11 +1,11 @@
-#import "WYACameraPreviewImageView.h"
-#import "WYACameraViewController.h"
+#import "LLCameraPreviewImageView.h"
+#import "LLCameraViewController.h"
 
-@interface WYACameraViewController ()
+@interface LLCameraViewController ()
 
 @property (nonatomic, strong) UIView * containerView;                                //内容父容器
 @property (nonatomic, strong) AVCaptureVideoPreviewLayer * captureVideoPreviewLayer; //相机拍摄预览图层
-@property (nonatomic, strong) WYACameraTool * videoTool;
+@property (nonatomic, strong) LLCameraTool * videoTool;
 
 @property (nonatomic, strong) UIView * cameraBar;          //顶部放置以下控件的视图
 @property (nonatomic, strong) UIButton * flashButton;      //闪光灯
@@ -14,30 +14,30 @@
 
 @property (nonatomic, strong) UILabel * messageLabel;
 @property (nonatomic, strong) UIButton * closeButton; //关闭按钮
-@property (nonatomic, strong) WYAProgressView * progressView;
+@property (nonatomic, strong) LLProgressView * progressView;
 
 @property (nonatomic, assign) CGFloat timeCount;
 @property (nonatomic, assign) CGFloat timeMargin;
 
 @property (nonatomic, strong) NSTimer * timer;
-@property (nonatomic, strong) WYACameraPreviewImageView * placeholdImageView;
+@property (nonatomic, strong) LLCameraPreviewImageView * placeholdImageView;
 @property (nonatomic, strong) AVPlayer * player;
-@property (nonatomic, assign) WYACameraType cameraType;
-@property (nonatomic, assign) WYACameraOrientation cameraOrientation;
+@property (nonatomic, assign) LLCameraType cameraType;
+@property (nonatomic, assign) LLCameraOrientation cameraOrientation;
 @end
 
-@implementation WYACameraViewController {
+@implementation LLCameraViewController {
     NSString * _imagePath;
     NSString * _videoPath;
 }
 #pragma mark ======= LifeCircle
 - (instancetype)init
 {
-    return [self initWithType:WYACameraTypeAll cameraOrientation:WYACameraOrientationBack];
+    return [self initWithType:LLCameraTypeAll cameraOrientation:LLCameraOrientationBack];
 }
 
-- (instancetype)initWithType:(WYACameraType)type
-           cameraOrientation:(WYACameraOrientation)cameraOrientation
+- (instancetype)initWithType:(LLCameraType)type
+           cameraOrientation:(LLCameraOrientation)cameraOrientation
 {
     self = [super init];
     if (self) {
@@ -99,27 +99,27 @@
 
     [self.view addSubview:self.progressView];
 
-    if (self.cameraType == WYACameraTypeAll) {
+    if (self.cameraType == LLCameraTypeAll) {
         [self.view addSubview:self.messageLabel];
     }
 
     CGFloat cameraBar_X      = 0;
     CGFloat cameraBar_Y      = 0;
     CGFloat cameraBar_Width  = ScreenWidth;
-    CGFloat cameraBar_Height = WYATopHeight;
+    CGFloat cameraBar_Height = LLTopHeight;
     self.cameraBar.frame     = CGRectMake(cameraBar_X, cameraBar_Y, cameraBar_Width, cameraBar_Height);
 
     CGFloat width               = self.cameraBar.cmam_width / 3;
     CGFloat flashButton_centerX = width / 2;
-    CGFloat flashButton_centerY = WYAStatusBarHeight + 22;
+    CGFloat flashButton_centerY = LLStatusBarHeight + 22;
     self.flashButton.center     = CGPointMake(flashButton_centerX, flashButton_centerY);
 
     CGFloat cameraButton_centerX = width + width / 2;
-    CGFloat cameraButton_centerY = WYAStatusBarHeight + 22;
+    CGFloat cameraButton_centerY = LLStatusBarHeight + 22;
     self.cameraButton.center     = CGPointMake(cameraButton_centerX, cameraButton_centerY);
 
     CGFloat flashLightButton_centerX = width * 2 + width / 2;
-    CGFloat flashLightButton_centerY = WYAStatusBarHeight + 22;
+    CGFloat flashLightButton_centerY = LLStatusBarHeight + 22;
     self.flashLightButton.center     = CGPointMake(flashLightButton_centerX, flashLightButton_centerY);
 
     CGFloat closeButton_centerX = ScreenWidth / 4 - 10 * SizeAdapter;
@@ -145,15 +145,15 @@
 
 - (void)openSystemPermissionsWithText:(NSString *)text
 {
-    WYAAlertController * alert =
-    [WYAAlertController wya_alertWithTitle:text
+    LLAlertController * alert =
+    [LLAlertController ll_alertWithTitle:text
                                    Message:nil
-                          AlertLayoutStyle:WYAAlertLayoutStyleHorizontal];
+                          AlertLayoutStyle:LLAlertLayoutStyleHorizontal];
     alert.backgroundButton.enabled = NO;
-    alert.presentStyle             = WYAPopupPresentStyleBounce;
-    alert.dismissStyle             = WYAPopupDismissStyleShrink;
+    alert.presentStyle             = LLPopupPresentStyleBounce;
+    alert.dismissStyle             = LLPopupDismissStyleShrink;
     // 创建 action
-    WYAAlertAction * defaultAction = [WYAAlertAction wya_actionWithTitle:@"确定"
+    LLAlertAction * defaultAction = [LLAlertAction ll_actionWithTitle:@"确定"
                                                                textColor:nil
                                                                 textFont:nil
                                                                  handler:^{
@@ -161,7 +161,7 @@
                                                                      openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
                                                                  }];
 
-    WYAAlertAction * cancelAction = [WYAAlertAction wya_actionWithTitle:@"取消"
+    LLAlertAction * cancelAction = [LLAlertAction ll_actionWithTitle:@"取消"
                                                               textColor:nil
                                                                textFont:nil
                                                                 handler:^{
@@ -171,8 +171,8 @@
                                                                         [self dismissViewControllerAnimated:YES completion:nil];
                                                                     }
                                                                 }];
-    [alert wya_addAction:cancelAction];
-    [alert wya_addAction:defaultAction];
+    [alert ll_addAction:cancelAction];
+    [alert ll_addAction:defaultAction];
     [self presentViewController:alert animated:YES completion:nil];
 }
 
@@ -404,8 +404,8 @@
 {
     if (!_closeButton) {
         _closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_closeButton setImage:[UIImage loadBundleImage:@"icon_cancel_camera"
-                                              ClassName:NSStringFromClass([self class])]
+        [_closeButton setImage:[UIImage ll_loadBundleImage:@"icon_cancel_camera"
+                                                    ClassName:NSStringFromClass([self class]) bundleName:@"LSJHCamera"]
                       forState:UIControlStateNormal];
         _closeButton.bounds              = CGRectMake(0, 0, 50, 50);
         _closeButton.layer.cornerRadius  = _closeButton.bounds.size.width * 0.5;
@@ -433,11 +433,11 @@
 {
     if (!_flashButton) {
         _flashButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_flashButton setImage:[UIImage loadBundleImage:@"icon_camera_flash_close"
-                                              ClassName:NSStringFromClass([self class])]
+        [_flashButton setImage:[UIImage ll_loadBundleImage:@"icon_camera_flash_close"
+                                                    ClassName:NSStringFromClass([self class]) bundleName:@"LSJHCamera"]
                       forState:UIControlStateNormal];
-        [_flashButton setImage:[UIImage loadBundleImage:@"icon_camera_flash_open"
-                                              ClassName:NSStringFromClass([self class])]
+        [_flashButton setImage:[UIImage ll_loadBundleImage:@"icon_camera_flash_open"
+                                                    ClassName:NSStringFromClass([self class]) bundleName:@"LSJHCamera"]
                       forState:UIControlStateSelected];
         _flashButton.bounds = CGRectMake(0, 0, 40, 40);
         [_flashButton addTarget:self
@@ -451,9 +451,9 @@
 {
     if (!_flashLightButton) {
         _flashLightButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_flashLightButton setImage:[UIImage loadBundleImage:@"icon_scan_flashlight"
-                                                   ClassName:NSStringFromClass([self class])]
-                           forState:UIControlStateNormal];
+        [_flashLightButton setImage:[UIImage ll_loadBundleImage:@"icon_scan_flashlight"
+                                                      ClassName:NSStringFromClass([self class])
+                                                     bundleName:@"LSJHCamera"] forState:UIControlStateNormal];
         _flashLightButton.bounds = CGRectMake(0, 0, 40, 40);
         [_flashLightButton addTarget:self
                               action:@selector(flashLightButtonClick:)
@@ -466,34 +466,33 @@
 {
     if (!_cameraButton) {
         _cameraButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_cameraButton setImage:[UIImage loadBundleImage:@"icon_camera_switch"
-                                               ClassName:NSStringFromClass([self class])]
-                       forState:UIControlStateNormal];
+        [_cameraButton setImage:[UIImage ll_loadBundleImage:@"icon_camera_switch"
+                                                  ClassName:NSStringFromClass([self class]) bundleName:@"LSJHCamera"] forState:UIControlStateNormal];
         _cameraButton.bounds                = CGRectMake(0, 0, 40, 40);
         _cameraButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
         [_cameraButton addTarget:self
                           action:@selector(cameraButtonClick:)
                 forControlEvents:UIControlEventTouchUpInside];
-        if (self.cameraOrientation == WYACameraOrientationFront) {
+        if (self.cameraOrientation == LLCameraOrientationFront) {
             _cameraButton.selected = YES;
         }
     }
     return _cameraButton;
 }
 
-- (WYAProgressView *)progressView
+- (LLProgressView *)progressView
 {
     if (!_progressView) {
-        _progressView = [[WYAProgressView alloc]
+        _progressView = [[LLProgressView alloc]
             initWithFrame:CGRectMake((ScreenWidth - 80 * SizeAdapter) / 2,
-                                     ScreenHeight - WYABottomHeight - 80 * SizeAdapter - 30,
+                                     ScreenHeight - LLBottomHeight - 80 * SizeAdapter - 30,
                                      80 * SizeAdapter, 80 * SizeAdapter)
-        progressViewStyle:WYAProgressViewStyleCircle];
+        progressViewStyle:LLProgressViewStyleCircle];
         _progressView.borderWidth         = 10 * SizeAdapter;
         _progressView.layer.cornerRadius  = 40 * SizeAdapter;
         _progressView.layer.masksToBounds = YES;
-        _progressView.backgroundImage     = [UIImage loadBundleImage:@"yuan" ClassName:NSStringFromClass(self.class)];
-        if (self.cameraType == WYACameraTypeAll) {
+        _progressView.backgroundImage     = [UIImage ll_loadBundleImage:@"yuan" ClassName:NSStringFromClass(self.class) bundleName:@"LSJHCamera"];
+        if (self.cameraType == LLCameraTypeAll) {
             UITapGestureRecognizer * tap =
             [[UITapGestureRecognizer alloc] initWithTarget:self
                                                     action:@selector(takingPictures)];
@@ -504,7 +503,7 @@
                     action:@selector(startRecordingVideo:)];
             [_progressView addGestureRecognizer:longPress];
             [longPress requireGestureRecognizerToFail:tap];
-        } else if (self.cameraType == WYACameraTypeImage) {
+        } else if (self.cameraType == LLCameraTypeImage) {
             UITapGestureRecognizer * tap =
             [[UITapGestureRecognizer alloc] initWithTarget:self
                                                     action:@selector(takingPictures)];
@@ -519,10 +518,10 @@
     return _progressView;
 }
 
-- (WYACameraTool *)videoTool
+- (LLCameraTool *)videoTool
 {
     if (!_videoTool) {
-        _videoTool                = [[WYACameraTool alloc] initWithCameraOrientation:self.cameraOrientation];
+        _videoTool                = [[LLCameraTool alloc] initWithCameraOrientation:self.cameraOrientation];
         _videoTool.saveMediaBlock = ^(BOOL isSuccess, NSString * result, NSString * imagePath, NSString * videoPath) {
             if (isSuccess) {
                 _imagePath = imagePath;
@@ -533,12 +532,12 @@
     return _videoTool;
 }
 
-- (WYACameraPreviewImageView *)placeholdImageView
+- (LLCameraPreviewImageView *)placeholdImageView
 {
     if (!_placeholdImageView) {
         _placeholdImageView = ({
-            WYACameraPreviewImageView * object =
-            [[WYACameraPreviewImageView alloc] initWithFrame:self.view.bounds];
+            LLCameraPreviewImageView * object =
+            [[LLCameraPreviewImageView alloc] initWithFrame:self.view.bounds];
             object.userInteractionEnabled = YES;
             object.hidden                 = YES;
             WeakSelf(weakSelf);
@@ -547,7 +546,7 @@
             object.editHandle   = ^(UIImage * _Nonnull previewImage) {
                 StrongSelf(strongSelf);
                 if (self.videoTool.videoPath) {
-                    [UIView wya_showCenterToastWithMessage:@"视频编辑暂未规划"];
+                    [UIView ll_showCenterToastWithMessage:@"视频编辑暂未规划"];
                     if ([UIVideoEditorController
                         canEditVideoAtPath:self.videoTool.videoPath]) {
                         UIVideoEditorController * vc =
@@ -567,8 +566,8 @@
                     return;
                 }
 
-                WYAImageCropViewController * vc =
-                [[WYAImageCropViewController alloc] initWithImage:previewImage];
+                LLImageCropViewController * vc =
+                [[LLImageCropViewController alloc] initWithImage:previewImage];
                 vc.onDidCropToRect = ^(UIImage * _Nonnull image, CGRect cropRect, NSInteger angle) {
                     [vc dismissViewControllerAnimated:NO
                                            completion:^{

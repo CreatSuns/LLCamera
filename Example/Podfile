@@ -6,7 +6,7 @@ platform :ios, '9.0'
 
 target 'LSJHCamera_Example' do
   pod 'LSJHCamera', :path => '../'
-
+#  pod 'LSJHCategory', :path => '/Users/lishihang/Desktop/GitProject/MyWarehouse/LSJHCategory'
   target 'LSJHCamera_Tests' do
     inherit! :search_paths
 

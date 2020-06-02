@@ -1,15 +1,15 @@
 
 
-#import "WYACameraTool.h"
+#import "LLCameraTool.h"
 #import <UIKit/UIKit.h>
 
-typedef NS_ENUM(NSUInteger, WYACameraType) {
-    WYACameraTypeAll,
-    WYACameraTypeImage,
-    WYACameraTypeVideo,
+typedef NS_ENUM(NSUInteger, LLCameraType) {
+    LLCameraTypeAll,
+    LLCameraTypeImage,
+    LLCameraTypeVideo,
 };
 
-@interface WYACameraViewController : UIViewController
+@interface LLCameraViewController : UIViewController
 /// 获取拍摄照片
 @property (nonatomic, copy) void (^takePhoto)(UIImage * photo, NSString * imagePath);
 /// 获取拍摄视频
@@ -30,7 +30,7 @@ typedef NS_ENUM(NSUInteger, WYACameraType) {
  @param cameraOrientation 相机朝向
  @return self
  */
-- (instancetype)initWithType:(WYACameraType)type cameraOrientation:(WYACameraOrientation)cameraOrientation;
+- (instancetype)initWithType:(LLCameraType)type cameraOrientation:(LLCameraOrientation)cameraOrientation;
 
 /**
  清除缓存
